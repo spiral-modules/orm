@@ -1,7 +1,7 @@
 {
-  "name": "spiral/components",
+  "name": "spiral/orm",
   "type": "framework",
-  "description": "Spiral, Core Components",
+  "description": "ORM, schema scaffolding, transactional, relations, late relations",
   "license": "MIT",
   "authors": [
     {
