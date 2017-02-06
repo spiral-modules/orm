@@ -101,7 +101,9 @@ class RelationMap
 
         foreach ($this->leadingRelations() as $relation) {
             //Generating commands needed to save given relation prior to parent command
-            $transaction->addCommand($relation->queueCommands($parent));
+            if ($relation->isLoaded()) {
+                $transaction->addCommand($relation->queueCommands($parent));
+            }
         }
 
         //Parent model save operations (true state that this is leading/primary command)
@@ -109,7 +111,9 @@ class RelationMap
 
         foreach ($this->dependedRelations() as $relation) {
             //Generating commands needed to save relations after parent command being executed
-            $transaction->addCommand($relation->queueCommands($parent));
+            if ($relation->isLoaded()) {
+                $transaction->addCommand($relation->queueCommands($parent));
+            }
         }
 
         return $transaction;

@@ -40,6 +40,20 @@ class ManyToMorphedRelation extends AbstractRelation
     /**
      * {@inheritdoc}
      */
+    public function isLoaded(): bool
+    {
+        foreach ($this->nested as $relation) {
+            if ($relation->isLoaded()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function hasRelated(): bool
     {
         throw new RelationException(
@@ -150,7 +164,9 @@ class ManyToMorphedRelation extends AbstractRelation
     {
         $transaction = new TransactionalCommand();
         foreach ($this->nested as $relation) {
-            $transaction->addCommand($relation->queueCommands($parentCommand));
+            if ($relation->isLoaded()) {
+                $transaction->addCommand($relation->queueCommands($parentCommand));
+            }
         }
 
         return $transaction;

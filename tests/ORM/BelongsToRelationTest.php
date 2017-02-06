@@ -4,6 +4,7 @@
  *
  * @author Wolfy-J
  */
+
 namespace Spiral\Tests\ORM;
 
 use Spiral\ORM\Entities\Loaders\RelationLoader;
@@ -50,6 +51,19 @@ abstract class BelongsToRelationTest extends BaseTest
         $this->assertSameInDB($user);
     }
 
+    public function testUpdateWithoutParentLoaded()
+    {
+        $post = new Post();
+        $post->author = new User();
+        $post->save();
+
+        $dbPost = $this->orm->source(Post::class)->findByPK($post->primaryKey());
+        $dbPost->title = 'new title';
+        $dbPost->save();
+
+        $this->assertSameInDB($dbPost);
+    }
+
     /**
      * @expectedException \Spiral\ORM\Exceptions\RelationException
      * @expectedExceptionMessage Must be an instance of 'Spiral\Tests\ORM\Fixtures\User',
@@ -82,8 +96,7 @@ abstract class BelongsToRelationTest extends BaseTest
     }
 
     /**
-     * @expectedException \Spiral\ORM\Exceptions\RelationException
-     * @expectedExceptionMessage No data presented in non nullable relation
+     * @expectedException \Spiral\Database\Exceptions\QueryException
      */
     public function testForceSaveNullYouCantChangeIt()
     {
