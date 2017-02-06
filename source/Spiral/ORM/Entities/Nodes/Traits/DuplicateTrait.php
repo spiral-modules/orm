@@ -62,10 +62,10 @@ trait DuplicateTrait
      *
      * @param array $data
      *
-     * @return mixed
+     * @return string
      */
-    protected function duplicateCriteria(array &$data)
+    protected function duplicateCriteria(array &$data): string
     {
-        return $data[$this->primaryKey];
+        return (string)$data[$this->primaryKey];
     }
 }
