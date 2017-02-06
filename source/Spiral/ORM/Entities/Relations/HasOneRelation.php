@@ -37,8 +37,8 @@ class HasOneRelation extends SingularRelation
     {
         //Make sure value is accepted
         $this->assertValid($value);
+        $this->loadData();
 
-        $this->loaded = true;
         if (empty($this->previous)) {
             //We are only keeping reference to the oldest (ie loaded) instance
             $this->previous = $this->instance;
