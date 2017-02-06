@@ -173,7 +173,7 @@ abstract class HasOneRelationTest extends BaseTest
         $this->assertNotSame($profile, $user->profile);
 
         $this->assertSame(0, $this->db->profiles->count());
-        $this->assertFalse($user->profile->isLoaded());
+        $this->assertTrue($user->profile->isLoaded());
     }
 
     public function testSetAssociatedMultipleNull()
@@ -201,6 +201,6 @@ abstract class HasOneRelationTest extends BaseTest
         $this->assertNotSame($profile, $user->profile);
 
         $this->assertSame(0, $this->db->profiles->count());
-        $this->assertFalse($user->profile->isLoaded());
+        $this->assertTrue($user->profile->isLoaded());
     }
 }
