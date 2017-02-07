@@ -27,7 +27,7 @@ abstract class AbstractRecord extends SchematicEntity
      */
     const SH_PRIMARY_KEY = 0;
     const SH_DEFAULTS    = 1;
-    const SH_RELATIONS   = 6;
+    const SH_RELATIONS   = 5;
 
     /**
      * Record behaviour definition.

@@ -219,7 +219,6 @@ class RecordSchema implements SchemaInterface
             RecordEntity::SH_DEFAULTS    => $this->packDefaults($table),
 
             //Entity behaviour
-            RecordEntity::SH_HIDDEN      => $this->reflection->getHidden(),
             RecordEntity::SH_SECURED     => $this->reflection->getSecured(),
             RecordEntity::SH_FILLABLE    => $this->reflection->getFillable(),
 
