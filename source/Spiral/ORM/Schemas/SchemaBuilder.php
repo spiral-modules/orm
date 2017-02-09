@@ -359,7 +359,7 @@ class SchemaBuilder
                 ORMInterface::R_SOURCE_CLASS => $this->getSource($class),
 
                 //Data location (database name either fetched from schema or default database name used)
-                ORMInterface::R_DATABASE     => $schema->getDatabase() ?? $this->manager->database()->getName(),
+                ORMInterface::R_DATABASE     => $this->manager->database($schema->getDatabase())->getName(),
                 ORMInterface::R_TABLE        => $schema->getTable(),
 
                 //Pack model specific relations

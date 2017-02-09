@@ -8,6 +8,7 @@
 namespace Spiral\ORM\Schemas;
 
 use Doctrine\Common\Inflector\Inflector;
+use Spiral\Database\Configs\DatabasesConfig;
 use Spiral\Database\Schemas\Prototypes\AbstractTable;
 use Spiral\Models\AccessorInterface;
 use Spiral\Models\Exceptions\AccessException;

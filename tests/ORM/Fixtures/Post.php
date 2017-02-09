@@ -9,6 +9,8 @@ namespace Spiral\Tests\ORM\Fixtures;
 
 class Post extends BaseRecord implements PicturedInterface, LabelledInterface, TaggableInterface
 {
+    const DATABASE = 'other';
+
     const SCHEMA = [
         'id'      => 'bigPrimary',
         'title'   => 'string(64)',
