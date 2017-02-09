@@ -151,7 +151,9 @@ abstract class BaseTest extends \PHPUnit_Framework_TestCase
         $dbal = new DatabaseManager(
             $this->dbConfig = new DatabasesConfig([
                 'default'     => 'default',
-                'aliases'     => [],
+                'aliases'     => [
+                    'other' => 'default'
+                ],
                 'databases'   => [],
                 'connections' => []
             ]),

@@ -33,6 +33,14 @@ abstract class RecordEntity extends AbstractRecord implements RecordInterface
 {
     use SaturateTrait, SolidableTrait;
 
+    /**
+     * Location of record in ORM schema, keep null to define automatically based on default database
+     * and class name.
+     */
+    const DATABASE   = null;
+    const TABLE      = null;
+    const MODEL_ROLE = null;
+
     /*
      * Begin set of behaviour and description constants.
      * ================================================
