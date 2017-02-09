@@ -239,11 +239,10 @@ class SchemaBuilder
         bool $unique = false,
         bool $resetState = false
     ): AbstractTable {
-        //Requesting thought DatabaseManager
-        $schema = $this->manager->database($database)->table($table)->getSchema();
+        $driver = $this->manager->database($database)->getDriver();
 
-        if (isset($this->tables[$schema->getDriver()->getName() . '.' . $table])) {
-            $schema = $this->tables[$schema->getDriver()->getName() . '.' . $table];
+        if (isset($this->tables[$driver->getName() . '.' . $table])) {
+            $schema = $this->tables[$driver->getName() . '.' . $table];
 
             if ($unique) {
                 throw new DoubleReferenceException(
@@ -251,8 +250,8 @@ class SchemaBuilder
                 );
             }
         } else {
-
-            $this->tables[$schema->getDriver()->getName() . '.' . $table] = $schema;
+            $schema = $this->manager->database($database)->table($table)->getSchema();
+            $this->tables[$driver->getName() . '.' . $table] = $schema;
         }
 
         $schema = clone $schema;
