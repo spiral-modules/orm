@@ -209,7 +209,7 @@ class SchemaBuilder
 
         //Rendering needed columns, FKs and indexes needed for our relations (if relation is ORM specific)
         foreach ($this->relations->declareTables($this) as $table) {
-            $this->setTable($table);
+            $this->pushTable($table);
         }
 
         return $this;
@@ -219,7 +219,7 @@ class SchemaBuilder
      * Request table schema by name/database combination. Attention, you can only save table by
      * pushing it back using pushTable() method.
      *
-     * @see setTable()
+     * @see pushTable()
      *
      * @param string      $table
      * @param string|null $database
@@ -239,8 +239,11 @@ class SchemaBuilder
         bool $unique = false,
         bool $resetState = false
     ): AbstractTable {
-        if (isset($this->tables[$database . '.' . $table])) {
-            $schema = $this->tables[$database . '.' . $table];
+        //Requesting thought DatabaseManager
+        $schema = $this->manager->database($database)->table($table)->getSchema();
+
+        if (isset($this->tables[$schema->getDriver()->getName() . '.' . $table])) {
+            $schema = $this->tables[$schema->getDriver()->getName() . '.' . $table];
 
             if ($unique) {
                 throw new DoubleReferenceException(
@@ -248,9 +251,8 @@ class SchemaBuilder
                 );
             }
         } else {
-            //Requesting thought DatabaseManager
-            $schema = $this->manager->database($database)->table($table)->getSchema();
-            $this->tables[$database . '.' . $table] = $schema;
+
+            $this->tables[$schema->getDriver()->getName() . '.' . $table] = $schema;
         }
 
         $schema = clone $schema;
@@ -418,7 +420,7 @@ class SchemaBuilder
             }
 
             //And put it back :)
-            $this->setTable($table, $schema->getDatabase());
+            $this->pushTable($table);
         }
     }
 
@@ -464,19 +466,18 @@ class SchemaBuilder
      * Update table state.
      *
      * @param AbstractTable $schema
-     * @param string|null   $database
      *
      * @throws SchemaException
      */
-    protected function setTable(AbstractTable $schema, string $database = null)
+    protected function pushTable(AbstractTable $schema)
     {
         //We have to make sure that local table name is used
         $table = substr($schema->getName(), strlen($schema->getPrefix()));
 
-        if (empty($this->tables[$database . '.' . $table])) {
+        if (empty($this->tables[$schema->getDriver()->getName() . '.' . $table])) {
             throw new SchemaException("AbstractTable must be requested before pushing back");
         }
 
-        $this->tables[$database . '.' . $table] = $schema;
+        $this->tables[$schema->getDriver()->getName() . '.' . $table] = $schema;
     }
 }
