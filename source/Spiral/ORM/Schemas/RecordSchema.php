@@ -73,7 +73,7 @@ class RecordSchema implements SchemaInterface
         $role = $this->reflection->getProperty('model_role');
 
         //When role not defined we are going to use short class name
-        return $role ?? lcfirst($this->reflection->getShortName());
+        return $role ?? lcfirst(Inflector::tableize($this->reflection->getShortName()));
     }
 
     /**
