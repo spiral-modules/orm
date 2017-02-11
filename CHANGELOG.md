@@ -1,6 +1,10 @@
 CHANGELOG for 0.9.0 RC
 ======================
 
+0.9.4 (11.02.2017)
+-----
+- table and model role are now tabelized instead of camelized
+
 0.9.4 (09.02.2017)
 -----
 - improved database alias resolution
