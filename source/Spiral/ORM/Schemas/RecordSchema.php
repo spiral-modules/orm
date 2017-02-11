@@ -113,8 +113,8 @@ class RecordSchema implements SchemaInterface
     {
         $table = $this->reflection->getProperty('table');
         if (empty($table)) {
-            //Generate collection using short class name
-            $table = Inflector::camelize($this->reflection->getShortName());
+            //Generate table using short class name
+            $table = Inflector::tableize($this->reflection->getShortName());
             $table = Inflector::pluralize($table);
         }
 
