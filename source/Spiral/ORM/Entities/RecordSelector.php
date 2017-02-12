@@ -462,9 +462,9 @@ class RecordSelector extends Component implements \IteratorAggregate, \Countable
     /**
      * {@inheritdoc}
      */
-    public function getPaginator(): PaginatorInterface
+    public function getPaginator(bool $prepare = true): PaginatorInterface
     {
-        return $this->loader->initialQuery()->getPaginator();
+        return $this->loader->initialQuery()->getPaginator($prepare);
     }
 
     /**
