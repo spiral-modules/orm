@@ -348,6 +348,23 @@ class RecordSelector extends Component implements \IteratorAggregate, \Countable
     }
 
     /**
+     * Fetch all records in a form of array.
+     *
+     * @param string              $cacheKey
+     * @param int|\DateInterval   $ttl
+     * @param CacheInterface|null $cache Can be automatically resoled via ORM container scope.
+     *
+     * @return RecordInterface[]
+     */
+    public function fetchAll(
+        string $cacheKey = '',
+        $ttl = 0,
+        CacheInterface $cache = null
+    ): array {
+        return iterator_to_array($this->getIterator($cacheKey, $ttl, $cache));
+    }
+
+    /**
      * Get RecordIterator (entity iterator) for a requested data. Provide cache key and lifetime in
      * order to cache request data.
      *

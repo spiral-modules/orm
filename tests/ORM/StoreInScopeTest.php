@@ -281,6 +281,8 @@ abstract class StoreInScopeTest extends BaseTest
 
         $transaction->run();
         $this->assertSame(1, $this->orm->selector(User::class)->count());
+
+        $this->assertInstanceOf(User::class, $this->orm->selector(User::class)->fetchAll()[0]);
     }
 
     /**
