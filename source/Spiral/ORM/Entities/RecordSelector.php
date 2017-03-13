@@ -35,6 +35,8 @@ use Spiral\Pagination\PaginatorInterface;
  *
  * @method $this orderBy($expression, $direction = 'ASC');
  *
+ * @method $this distinct()
+ *
  * @method int avg($identifier) Perform aggregation (AVG) based on column or expression value.
  * @method int min($identifier) Perform aggregation (MIN) based on column or expression value.
  * @method int max($identifier) Perform aggregation (MAX) based on column or expression value.
