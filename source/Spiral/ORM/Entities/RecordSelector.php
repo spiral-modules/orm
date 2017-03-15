@@ -442,6 +442,16 @@ class RecordSelector extends Component implements \IteratorAggregate, \Countable
     {
         return $this->loader->compiledQuery();
     }
+    
+    /**
+     * Compiled SQL statement.
+     *
+     * @return string
+     */
+    public function sqlStatement(): string 
+    {
+        return $this->loader->compiledQuery()->sqlStatement();
+    }
 
     /**
      * Load data tree from databases and linked loaders in a form of array.
