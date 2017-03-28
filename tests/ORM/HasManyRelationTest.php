@@ -808,4 +808,50 @@ abstract class HasManyRelationTest extends BaseTest
 
         $this->assertFalse($post->comments->has($comment));
     }
+
+    public function testLimit()
+    {
+        $post = new Post();
+        $post->author = new User();
+        $post->comments->add($comment = new Comment(['message' => 'hi1']));
+        $post->comments->add($comment2 = new Comment(['message' => 'hi2', 'approved' => true]));
+        $post->comments->add($comment3 = new Comment(['message' => 'hi3']));
+        $post->save();
+
+        $this->assertCount(3, $this->db->comments);
+
+        $post = $this->orm->selector(Post::class)
+            ->wherePK($post->primaryKey())
+            ->load('comments', ['limit' => 2, 'orderBy' => ['{@}.id' => 'ASC']])
+            ->findOne();
+
+        $this->assertCount(2, $post->comments);
+
+        $this->assertTrue($post->comments->has($comment));
+        $this->assertTrue($post->comments->has($comment2));
+        $this->assertFalse($post->comments->has($comment3));
+    }
+
+    public function testLimitReversed()
+    {
+        $post = new Post();
+        $post->author = new User();
+        $post->comments->add($comment = new Comment(['message' => 'hi']));
+        $post->comments->add($comment2 = new Comment(['message' => 'hi', 'approved' => true]));
+        $post->comments->add($comment3 = new Comment(['message' => 'hi3']));
+        $post->save();
+
+        $this->assertCount(3, $this->db->comments);
+
+        $post = $this->orm->selector(Post::class)
+            ->wherePK($post->primaryKey())
+            ->load('comments', ['limit' => 2, 'orderBy' => ['{@}.id' => 'DESC']])
+            ->findOne();
+
+        $this->assertCount(2, $post->comments);
+
+        $this->assertFalse($post->comments->has($comment));
+        $this->assertTrue($post->comments->has($comment2));
+        $this->assertTrue($post->comments->has($comment3));
+    }
 }

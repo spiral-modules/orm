@@ -25,7 +25,7 @@ trait ConstrainTrait
     {
         if (!empty($orderBy)) {
             $decorator = new AliasDecorator($query, 'where', $this->getAlias());
-            $decorator->where($orderBy);
+            $decorator->orderBy($orderBy);
         }
 
         if ($limit !== 0) {

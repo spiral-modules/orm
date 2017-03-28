@@ -4,6 +4,7 @@
  *
  * @author Wolfy-J
  */
+
 namespace Spiral\Tests\ORM;
 
 use Spiral\ORM\Entities\Loaders\RelationLoader;
@@ -788,5 +789,57 @@ abstract class ManyToManyRelationTest extends BaseTest
         $this->assertSameInDB($node2);
         $this->assertSameInDB($node3);
         $this->assertSameInDB($node4);
+    }
+
+    public function testLimit()
+    {
+        $post = new Post();
+        $post->author = new User();
+
+        $post->tags = [
+            $tag1 = new Tag(['name' => 'tag a']),
+            $tag2 = new Tag(['name' => 'tag b']),
+            $tag3 = new Tag(['name' => 'tag c']),
+        ];
+
+        $post->save();
+        $this->assertCount(3, $this->db->post_tag_map);
+
+        $post = $this->orm->source(Post::class)->find()
+            ->wherePK($post->primaryKey())
+            ->load('tags', ['limit' => 2, 'orderBy' => ['{@}.id' => 'ASC']])
+            ->findOne();
+
+        $this->assertCount(2, $post->tags);
+
+        $this->assertTrue($post->tags->has($tag1));
+        $this->assertTrue($post->tags->has($tag2));
+        $this->assertFalse($post->tags->has($tag3));
+    }
+
+    public function testLimitReversed()
+    {
+        $post = new Post();
+        $post->author = new User();
+
+        $post->tags = [
+            $tag1 = new Tag(['name' => 'tag a']),
+            $tag2 = new Tag(['name' => 'tag b']),
+            $tag3 = new Tag(['name' => 'tag c']),
+        ];
+
+        $post->save();
+        $this->assertCount(3, $this->db->post_tag_map);
+
+        $post = $this->orm->source(Post::class)->find()
+            ->wherePK($post->primaryKey())
+            ->load('tags', ['limit' => 2, 'orderBy' => ['{@}.id' => 'DESC']])
+            ->findOne();
+
+        $this->assertCount(2, $post->tags);
+
+        $this->assertFalse($post->tags->has($tag1));
+        $this->assertTrue($post->tags->has($tag2));
+        $this->assertTrue($post->tags->has($tag3));
     }
 }
