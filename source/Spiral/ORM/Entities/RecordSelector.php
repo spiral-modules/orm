@@ -35,6 +35,8 @@ use Spiral\Pagination\PaginatorInterface;
  *
  * @method $this orderBy($expression, $direction = 'ASC');
  *
+ * @method $this distinct()
+ *
  * @method int avg($identifier) Perform aggregation (AVG) based on column or expression value.
  * @method int min($identifier) Perform aggregation (MIN) based on column or expression value.
  * @method int max($identifier) Perform aggregation (MAX) based on column or expression value.
@@ -440,6 +442,16 @@ class RecordSelector extends Component implements \IteratorAggregate, \Countable
     {
         return $this->loader->compiledQuery();
     }
+    
+    /**
+     * Compiled SQL statement.
+     *
+     * @return string
+     */
+    public function sqlStatement(): string 
+    {
+        return $this->loader->compiledQuery()->sqlStatement();
+    }
 
     /**
      * Load data tree from databases and linked loaders in a form of array.
@@ -481,7 +493,7 @@ class RecordSelector extends Component implements \IteratorAggregate, \Countable
      */
     public function getPaginator(bool $prepare = true): PaginatorInterface
     {
-        return $this->loader->initialQuery()->getPaginator($prepare);
+        return $this->loader->compiledQuery()->getPaginator($prepare);
     }
 
     /**

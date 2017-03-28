@@ -1,6 +1,11 @@
 CHANGELOG for 0.9.0 RC
 ======================
 
+0.9.7 (15.03.2017)
+-----
+- fetchAll
+- better phpDoc
+
 0.9.4 (11.02.2017)
 -----
 - table and model role are now tabelized instead of camelized

@@ -158,7 +158,6 @@ abstract class RecordEntity extends AbstractRecord implements RecordInterface
      * on MutatorsConfig and associated column types.
      */
     const SECURED   = '*';
-    const HIDDEN    = [];
     const FILLABLE  = [];
     const SETTERS   = [];
     const GETTERS   = [];
