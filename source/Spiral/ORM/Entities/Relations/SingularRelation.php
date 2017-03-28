@@ -10,7 +10,7 @@ namespace Spiral\ORM\Entities\Relations;
 use Spiral\Database\Exceptions\QueryException;
 use Spiral\ORM\Entities\Relations\Traits\SyncedTrait;
 use Spiral\ORM\Exceptions\SelectorException;
-use Spiral\ORM\Helpers\WhereDecorator;
+use Spiral\ORM\Helpers\AliasDecorator;
 use Spiral\ORM\ORMInterface;
 use Spiral\ORM\Record;
 use Spiral\ORM\RecordInterface;
@@ -104,7 +104,7 @@ abstract class SingularRelation extends AbstractRelation
         }
 
         $selector = $this->orm->selector($this->getClass());
-        $decorator = new WhereDecorator($selector, 'where', $selector->getAlias());
+        $decorator = new AliasDecorator($selector, 'where', $selector->getAlias());
         $decorator->where($this->whereStatement());
 
         $this->data = $selector->fetchData();

@@ -8,7 +8,7 @@
 namespace Spiral\ORM\Entities\Loaders\Traits;
 
 use Spiral\Database\Builders\SelectQuery;
-use Spiral\ORM\Helpers\WhereDecorator;
+use Spiral\ORM\Helpers\AliasDecorator;
 
 /**
  * Provides ability to clarify Query where conditions in JOIN or WHERE statement, based on provided
@@ -34,7 +34,7 @@ trait WhereTrait
             return;
         }
 
-        $decorator = new WhereDecorator($query, $target, $table);
+        $decorator = new AliasDecorator($query, $target, $table);
         $decorator->where($where);
     }
 }

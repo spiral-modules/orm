@@ -110,6 +110,20 @@ abstract class RecordEntity extends AbstractRecord implements RecordInterface
     const RELATION_COLUMNS = 1009;
 
     /**
+     * Order for the relation. Declaration must be {@} based.
+     *
+     * Example:
+     * 'comments' => [
+     *     self::HAS_MANY => Comment::class,
+     *     self::ORDER_BY => [
+     *          '{@}.id' => 'DESC'
+     *     ]
+     * ]
+     *
+     */
+    const ORDER_BY = 8001;
+
+    /**
      * Mark relation with such constant will allow ORM detect outer record automatically based on
      * given role OR interface. You can not combine this constant with MORPHED relations.
      *

@@ -9,11 +9,13 @@ namespace Spiral\ORM\Entities\Loaders;
 
 use Spiral\Database\Builders\SelectQuery;
 use Spiral\Database\Injections\Parameter;
+use Spiral\ORM\Entities\Loaders\Traits\ConstrainTrait;
 use Spiral\ORM\Entities\Loaders\Traits\WhereTrait;
 use Spiral\ORM\Entities\Nodes\AbstractNode;
 use Spiral\ORM\Entities\Nodes\PivotedNode;
 use Spiral\ORM\ORMInterface;
 use Spiral\ORM\Record;
+use Spiral\ORM\RecordEntity;
 
 /**
  * ManyToMany loader will not only load related data, but will include pivot table data into record
@@ -24,7 +26,7 @@ use Spiral\ORM\Record;
  */
 class ManyToManyLoader extends RelationLoader
 {
-    use WhereTrait;
+    use WhereTrait, ConstrainTrait;
 
     /**
      * When target role is null parent role to be used. Redefine this variable to revert behaviour
@@ -47,7 +49,9 @@ class ManyToManyLoader extends RelationLoader
         'pivotAlias' => null,
         'using'      => null,
         'where'      => null,
-        'wherePivot' => null
+        'wherePivot' => null,
+        'orderBy'    => [],
+        'limit'      => 0
     ];
 
     /**
@@ -66,6 +70,11 @@ class ManyToManyLoader extends RelationLoader
     ) {
         parent::__construct($class, $relation, $schema, $orm);
         $this->targetRole = $targetRole;
+
+        if (!empty($schema[RecordEntity::ORDER_BY])) {
+            //Default sorting direction
+            $this->options['orderBy'] = $schema[RecordEntity::ORDER_BY];
+        }
     }
 
     /**
@@ -98,6 +107,8 @@ class ManyToManyLoader extends RelationLoader
                     $this->pivotKey(Record::THOUGHT_INNER_KEY),
                     new Parameter($outerKeys)
                 );
+
+            $this->configureWindow($query, $this->options['orderBy'], $this->options['limit']);
         }
 
         //When relation is joined we will use ON statements, when not - normal WHERE

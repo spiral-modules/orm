@@ -15,7 +15,7 @@ use Spiral\ORM\Entities\RecordSelector;
 use Spiral\ORM\Entities\Relations\Traits\LookupTrait;
 use Spiral\ORM\Entities\Relations\Traits\SyncedTrait;
 use Spiral\ORM\Exceptions\RelationException;
-use Spiral\ORM\Helpers\WhereDecorator;
+use Spiral\ORM\Helpers\AliasDecorator;
 use Spiral\ORM\ORMInterface;
 use Spiral\ORM\Record;
 use Spiral\ORM\RecordInterface;
@@ -248,19 +248,23 @@ class HasManyRelation extends MultipleRelation implements \IteratorAggregate, \C
             $innerKey
         );
 
+        $decorator = new AliasDecorator($selector, 'where', $selector->getAlias());
         if (!empty($this->schema[Record::WHERE])) {
             //Configuring where conditions with alias resolution
-            $decorator = new WhereDecorator($selector, 'where', $selector->getAlias());
             $decorator->where($this->schema[Record::WHERE]);
         }
 
         if (!empty($this->key(Record::MORPH_KEY))) {
             //Morph key
-            $decorator = new WhereDecorator($selector, 'where', $selector->getAlias());
             $decorator->where(
                 '{@}.' . $this->key(Record::MORPH_KEY),
                 $this->orm->define(get_class($this->parent), ORMInterface::R_ROLE_NAME)
             );
+        }
+
+        if (!empty($this->schema[Record::ORDER_BY])) {
+            //Sorting
+            $decorator->orderBy((array)$this->schema[Record::ORDER_BY]);
         }
 
         return $selector;

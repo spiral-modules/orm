@@ -49,7 +49,8 @@ class HasManySchema extends AbstractSchema implements InversableRelationInterfac
         Record::NULLABLE,
         Record::WHERE,
         Record::RELATION_COLUMNS,
-        Record::MORPH_KEY
+        Record::MORPH_KEY,
+        Record::ORDER_BY
     ];
 
     /**
@@ -79,7 +80,10 @@ class HasManySchema extends AbstractSchema implements InversableRelationInterfac
         Record::WHERE             => [],
 
         //Relation can point to morphed record
-        Record::MORPH_KEY         => null
+        Record::MORPH_KEY         => null,
+
+        //Order
+        Record::ORDER_BY          => []
     ];
 
     /**

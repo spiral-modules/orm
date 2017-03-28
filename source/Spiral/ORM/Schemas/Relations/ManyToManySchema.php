@@ -59,7 +59,8 @@ class ManyToManySchema extends AbstractSchema implements InversableRelationInter
         Record::PIVOT_COLUMNS,
         Record::WHERE_PIVOT,
         Record::WHERE,
-        Record::MORPH_KEY
+        Record::MORPH_KEY,
+        Record::ORDER_BY
     ];
 
     /**
@@ -121,7 +122,10 @@ class ManyToManySchema extends AbstractSchema implements InversableRelationInter
         Record::WHERE             => [],
 
         //Used when relation is created as inverse of ManyToMorphed relation
-        Record::MORPH_KEY         => null
+        Record::MORPH_KEY         => null,
+
+        //Order
+        Record::ORDER_BY          => []
     ];
 
     /**

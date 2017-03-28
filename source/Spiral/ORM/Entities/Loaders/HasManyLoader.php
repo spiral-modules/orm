@@ -9,11 +9,13 @@ namespace Spiral\ORM\Entities\Loaders;
 
 use Spiral\Database\Builders\SelectQuery;
 use Spiral\Database\Injections\Parameter;
+use Spiral\ORM\Entities\Loaders\Traits\ConstrainTrait;
 use Spiral\ORM\Entities\Loaders\Traits\WhereTrait;
 use Spiral\ORM\Entities\Nodes\AbstractNode;
 use Spiral\ORM\Entities\Nodes\ArrayNode;
 use Spiral\ORM\ORMInterface;
 use Spiral\ORM\Record;
+use Spiral\ORM\RecordEntity;
 
 /**
  * Dedicated to load HAS_MANY relation data, POSTLOAD is preferred loading method. Additional where
@@ -24,7 +26,7 @@ use Spiral\ORM\Record;
  */
 class HasManyLoader extends RelationLoader
 {
-    use WhereTrait;
+    use WhereTrait, ConstrainTrait;
 
     /**
      * Default set of relation options. Child implementation might defined their of default options.
@@ -32,12 +34,30 @@ class HasManyLoader extends RelationLoader
      * @var array
      */
     protected $options = [
-        'method' => self::POSTLOAD,
-        'minify' => true,
-        'alias'  => null,
-        'using'  => null,
-        'where'  => null,
+        'method'  => self::POSTLOAD,
+        'minify'  => true,
+        'alias'   => null,
+        'using'   => null,
+        'where'   => null,
+        'orderBy' => [],
+        'limit'   => 0
     ];
+
+    /**
+     * @param string                   $class
+     * @param string                   $relation
+     * @param array                    $schema
+     * @param \Spiral\ORM\ORMInterface $orm
+     */
+    public function __construct($class, $relation, array $schema, ORMInterface $orm)
+    {
+        parent::__construct($class, $relation, $schema, $orm);
+
+        if (!empty($schema[RecordEntity::ORDER_BY])) {
+            //Default sorting direction
+            $this->options['orderBy'] = $schema[RecordEntity::ORDER_BY];
+        }
+    }
 
     /**
      * {@inheritdoc}
@@ -48,7 +68,7 @@ class HasManyLoader extends RelationLoader
             //Use pre-defined query
             return parent::configureQuery($query, $outerKeys);
         }
-        
+
         if ($this->isJoined()) {
             $query->join(
                 $this->getMethod() == self::JOIN ? 'INNER' : 'LEFT',
@@ -64,6 +84,8 @@ class HasManyLoader extends RelationLoader
                 'IN',
                 new Parameter($outerKeys)
             );
+
+            $this->configureWindow($query, $this->options['orderBy'], $this->options['limit']);
         }
 
         //When relation is joined we will use ON statements, when not - normal WHERE

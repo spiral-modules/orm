@@ -91,7 +91,8 @@ class ManyToMorphedSchema extends AbstractSchema implements InversableRelationIn
         Record::RELATION_COLUMNS,
         Record::PIVOT_COLUMNS,
         Record::WHERE_PIVOT,
-        Record::MORPH_KEY
+        Record::MORPH_KEY,
+        Record::ORDER_BY
     ];
 
     /**
@@ -149,6 +150,9 @@ class ManyToMorphedSchema extends AbstractSchema implements InversableRelationIn
         //WHERE statement in a form of simplified array definition to be applied to pivot table
         //data.
         Record::WHERE_PIVOT       => [],
+
+        //Order
+        Record::ORDER_BY          => []
     ];
 
     /**

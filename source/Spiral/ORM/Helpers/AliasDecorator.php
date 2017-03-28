@@ -22,7 +22,7 @@ use Spiral\ORM\Entities\RecordSelector;
  *
  * @todo support @ alias?
  */
-class WhereDecorator
+class AliasDecorator
 {
     /**
      * Target function postfix. All requests will be routed using this pattern and "or", "and"
@@ -90,7 +90,7 @@ class WhereDecorator
      *
      * @throws BuilderException
      */
-    public function where(...$args): WhereDecorator
+    public function where(...$args): AliasDecorator
     {
         if ($args[0] instanceof \Closure) {
             call_user_func($args[0], $this);
@@ -108,6 +108,18 @@ class WhereDecorator
     }
 
     /**
+     * @param array $orderBy In a form [expression => direction]
+     *
+     * @return \Spiral\ORM\Helpers\AliasDecorator
+     */
+    public function orderBy(array $orderBy): AliasDecorator
+    {
+        $this->query->orderBy($this->prepare($orderBy));
+
+        return $this;
+    }
+
+    /**
      * Simple AND WHERE condition with various set of arguments. Routed to where/on/having based
      * on decorator settings.
      *
@@ -119,7 +131,7 @@ class WhereDecorator
      *
      * @throws BuilderException
      */
-    public function andWhere(...$args): WhereDecorator
+    public function andWhere(...$args): AliasDecorator
     {
         if ($args[0] instanceof \Closure) {
             call_user_func($args[0], $this);
@@ -148,7 +160,7 @@ class WhereDecorator
      *
      * @throws BuilderException
      */
-    public function orWhere(...$args): WhereDecorator
+    public function orWhere(...$args): AliasDecorator
     {
         if ($args[0] instanceof \Closure) {
             call_user_func($args[0], $this);

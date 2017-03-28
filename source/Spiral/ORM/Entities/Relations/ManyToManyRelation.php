@@ -21,7 +21,7 @@ use Spiral\ORM\Entities\Nodes\PivotedRootNode;
 use Spiral\ORM\Entities\RecordIterator;
 use Spiral\ORM\Entities\Relations\Traits\LookupTrait;
 use Spiral\ORM\Exceptions\RelationException;
-use Spiral\ORM\Helpers\WhereDecorator;
+use Spiral\ORM\Helpers\AliasDecorator;
 use Spiral\ORM\ORMInterface;
 use Spiral\ORM\Record;
 use Spiral\ORM\RecordInterface;
@@ -436,13 +436,19 @@ class ManyToManyRelation extends MultipleRelation implements \IteratorAggregate,
         $query = $loader->configureQuery($query, [$innerKey]);
 
         //Additional pivot conditions
-        $pivotDecorator = new WhereDecorator($query, 'onWhere', $table->getName() . '_pivot');
+        $pivotDecorator = new AliasDecorator($query, 'onWhere', $table->getName() . '_pivot');
         $pivotDecorator->where($this->schema[Record::WHERE_PIVOT]);
+
+        $decorator = new AliasDecorator($query, 'where', 'root');
 
         //Additional where conditions!
         if (!empty($this->schema[Record::WHERE])) {
-            $decorator = new WhereDecorator($query, 'where', 'root');
             $decorator->where($this->schema[Record::WHERE]);
+        }
+
+        if (!empty($this->schema[Record::ORDER_BY])) {
+            //Sorting
+            $decorator->orderBy((array)$this->schema[Record::ORDER_BY]);
         }
 
         return $query;
