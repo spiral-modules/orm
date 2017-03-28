@@ -1,6 +1,11 @@
 CHANGELOG for 0.9.0 RC
 ======================
 
+0.9.9 (28.03.2017)
+-----
+- now possible to use 'limit' and 'orderBy' options in HasMany and ManyToMany loaders
+- new Record constant 'ORDER_BY', defines default order for related data (exclude: with-relations)
+
 0.9.7 (15.03.2017)
 -----
 - fetchAll
