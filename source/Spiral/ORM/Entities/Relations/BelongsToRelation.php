@@ -75,8 +75,13 @@ class BelongsToRelation extends SingularRelation
     private function queueRelated(
         ContextualCommandInterface $parentCommand
     ): ContextualCommandInterface {
-        //Command or command set needed to store
-        $innerCommand = $this->instance->queueStore(true);
+        /*
+         * Only queue parent relations when parent wasn't saved already, attention, this might
+         * cause an issues with very deep recursive structures (and it's expected).
+         */
+        $innerCommand = $this->instance->queueStore(
+            !$this->instance->isLoaded()
+        );
 
         if (!$this->isSynced($this->parent, $this->instance)) {
             //Syncing FKs before primary command been executed
