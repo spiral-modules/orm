@@ -14,6 +14,13 @@ use Spiral\ORM\Exceptions\RelationException;
 interface RecordInterface extends EntityInterface
 {
     /**
+     * Indication that record has allocated database row.
+     *
+     * @return bool
+     */
+    public function isLoaded(): bool;
+
+    /**
      * Can be null.
      *
      * @return mixed

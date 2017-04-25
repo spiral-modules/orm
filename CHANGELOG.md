@@ -1,12 +1,11 @@
 CHANGELOG for 0.9.0 RC
 ======================
 
-0.9.9 (28.03.2017)
+1.0.1 (25.04.2017)
 -----
-- now possible to use 'limit' and 'orderBy' options in HasMany and ManyToMany loaders
-- new Record constant 'ORDER_BY', defines default order for related data (exclude: with-relations)
+- BelongsTo and BelongsToMorphed relations do not save parent relations when parent is already loaded (to prevent recursion loops)
 
-0.9.7 (15.03.2017)
+0.9.7 (15.03.2017) = 1.0.0 public release
 -----
 - fetchAll
 - better phpDoc

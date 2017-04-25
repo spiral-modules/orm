@@ -105,6 +105,10 @@ final class Transaction implements TransactionInterface
             $commands[] = $command;
         }
 
+        if (empty($commands)) {
+            return;
+        }
+
         //Commands we executed and drivers with started transactions
         $executedCommands = $wrappedDrivers = [];
 
@@ -138,6 +142,7 @@ final class Transaction implements TransactionInterface
         }
 
         foreach (array_reverse($wrappedDrivers) as $driver) {
+            /** @var Driver $driver */
             $driver->commitTransaction();
         }
 
