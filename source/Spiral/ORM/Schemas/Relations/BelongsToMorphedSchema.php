@@ -152,7 +152,11 @@ class BelongsToMorphedSchema extends AbstractSchema implements InversableRelatio
 
         $outerKey = $this->findOuter($builder);
         if (empty($outerKey)) {
-            throw new RelationSchemaException("Unable to build morphed relation, no outer record found");
+            throw new RelationSchemaException(sprintf(
+                "Unable to build morphed relation, no outer record(s) found for '%s' from '%s'",
+                $this->getDefinition()->getTarget(),
+                $this->getDefinition()->sourceContext()->getClass()
+            ));
         }
 
         //Make sure all tables has same outer
