@@ -7,3 +7,78 @@ Spiral ORM
 [![Coverage Status](https://coveralls.io/repos/github/spiral/orm/badge.svg?branch=master)](https://coveralls.io/github/spiral/orm?branch=master)
 
 <b>[Documentation](http://spiral-framework.com/guide)</b> | [CHANGELOG](/CHANGELOG.md)
+
+
+```php
+class Post extends RecordEntity
+{
+    use TimestampsTrait;
+
+    //Database partitions, isolation and aliasing
+    const DATABASE = 'blog';
+
+    const SCHEMA = [
+        'id'     => 'bigPrimary',
+        'title'  => 'string(64)',
+        'status' => 'enum(published,draft)',
+        'body'   => 'text',
+        
+        //Simple relation definitions
+        'comments' => [self::HAS_MANY => Comment::class],
+        
+        //Not very simple relation definitions
+        'collaborators' => [
+            self::MANY_TO_MANY  => User::class,
+            self::PIVOT_TABLE   => 'post_collaborators_map',
+            self::PIVOT_COLUMNS => [
+                'time_assigned' => 'datetime',
+                'type'          => 'string, nullable',
+            ],
+            User::INVERSE       => 'collaborated_posts'
+        ],
+        
+        //Pre-compiled relations
+        'author'   => [
+            self::BELONGS_TO   => AuthorInterface::class,
+            self::LATE_BINDING => true
+        ],
+               
+        //Hybrid databases
+        'metadata' => [
+            Document::ONE => Mongo\Metadata::class
+        ]
+    ];
+}
+```
+
+```php
+$posts = $postSource->find()->distinct()
+    ->with('comments', ['where' => ['{@}.approved' => true]]) //Automatic joins
+    ->with('author')->where('author_name', 'LIKE', $authorName) //Fluent
+    ->load('comments.author') //Cascade eager-loading (joins or external query)
+    ->paginate(10) //Quick pagination using active request
+    ->getIterator();
+
+foreach ($posts as $post) {
+    echo $post->author->getName();
+}
+```
+
+```php
+$post = new Post();
+$post->publish_at = 'tomorrow 8am';
+$post->author = new User(['name' => 'Antony']);
+
+$post->tags->link(new Tag(['name' => 'tag A']));
+$post->tags->link($tags->findOne(['name' => 'tag B']));
+
+$transaction = new Transaction();
+$transaction->store($post);
+$transaction->run();
+
+//--or--: Active record (optional)
+$post->save();
+
+//--or--: request specific transaction
+$this->transaction->store($post);
+```
