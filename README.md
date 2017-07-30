@@ -11,7 +11,7 @@ Spiral ORM
 # Documentation
  * [Overview](https://spiral-framework.com/guide/orm/overview.md)
  * [Record and RecordEntity](https://spiral-framework.com/guide/orm/entities.md)
- * [Repositories and Selectors](https://spiral-framework.com/guide/(orm/repositories.md)
+ * [Repositories and Selectors](https://spiral-framework.com/guide/orm/repositories.md)
  * [Accessors and Filters](https://spiral-framework.com/guide/orm/accessors.md)
  * [Column Objects](https://spiral-framework.com/guide/orm/columns.md)
  * [Scaffolding and Migrations](https://spiral-framework.com/guide/orm/scaffolding.md)
