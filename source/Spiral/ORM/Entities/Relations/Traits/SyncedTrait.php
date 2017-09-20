@@ -25,7 +25,7 @@ trait SyncedTrait
      */
     protected function isSynced(RecordInterface $inner, RecordInterface $outer): bool
     {
-        if (empty($outer->primaryKey())) {
+        if (empty($inner->primaryKey()) || empty($outer->primaryKey())) {
             //Parent not saved
             return false;
         }
