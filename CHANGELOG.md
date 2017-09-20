@@ -1,6 +1,12 @@
 CHANGELOG for 0.9.0 RC
 ======================
 
+1.0.3 (20.09.2017)
+-----
+- bugfix of association of HasOne to already saved record with nullable outer key
+- bugfix of forcing join type of pre-loading
+- readme update
+
 1.0.1 (25.04.2017)
 -----
 - BelongsTo and BelongsToMorphed relations do not save parent relations when parent is already loaded (to prevent recursion loops)
