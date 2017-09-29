@@ -1,5 +1,9 @@
-CHANGELOG for 0.9.0 RC
+CHANGELOG
 ======================
+
+1.0.5 (29.09.2017)
+-----
+- bugfix of MANY_TO_MANY exception when used several databases
 
 1.0.3 (20.09.2017)
 -----
