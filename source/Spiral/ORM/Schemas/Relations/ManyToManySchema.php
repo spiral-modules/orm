@@ -195,7 +195,7 @@ class ManyToManySchema extends AbstractSchema implements InversableRelationInter
 
         if (
             $sourceTable->getDriver() != $targetTable->getDriver()
-            || $sourceContext->getDatabase() != $sourceContext->getDatabase()
+            || $sourceContext->getDatabase() != $targetContext->getDatabase()
         ) {
             //todo: support cross database and cross driver many to many
             throw new RelationSchemaException(
