@@ -4,10 +4,12 @@
  *
  * @author Wolfy-J
  */
+
 namespace Spiral\Tests\ORM;
 
 use Spiral\ORM\Entities\Loaders\RelationLoader;
 use Spiral\ORM\Entities\Relations\HasOneRelation;
+use Spiral\Tests\ORM\Fixtures\Bio;
 use Spiral\Tests\ORM\Fixtures\Comment;
 use Spiral\Tests\ORM\Fixtures\Profile;
 use Spiral\Tests\ORM\Fixtures\User;
@@ -154,29 +156,34 @@ abstract class HasOneRelationTest extends BaseTest
     {
         $user = new User();
         $user->name = 'Some name';
-        $user->profile->bio = 'Some bio';
+        $this->assertNull($user->bio);
+
+        $user->bio = new Bio(['bio' => 'New bio']);
         $user->save();
 
-        $this->assertSame(1, $this->db->profiles->count());
+        $this->assertSame(1, $this->db->bio->count());
 
         //Back up
-        $profile = $user->profile;
+        $bio = $user->bio;
 
-        $user->profile = null;
+        $user->bio = null;
+        $this->assertNull($user->bio);
 
         //Null command expected
         $user->solidState(false);
         $user->save();
 
         //New instance
-        $this->assertInstanceOf(Profile::class, $user->profile);
-        $this->assertNotSame($profile, $user->profile);
+        $this->assertNull($user->bio);
+        $this->assertNotSame($bio, $user->bio);
 
-        $this->assertSame(0, $this->db->profiles->count());
-        $this->assertTrue($user->profile->isLoaded());
+        $dbUser = $this->orm->selector(User::class)->findOne();
+        $this->assertNull($dbUser->bio);
+
+        $this->assertSame(0, $this->db->bio->count());
     }
 
-    public function testSetAssociatedMultipleNull()
+    public function testDeleteByReplacement()
     {
         $user = new User();
         $user->name = 'Some name';
@@ -188,9 +195,7 @@ abstract class HasOneRelationTest extends BaseTest
         //Back up
         $profile = $user->profile;
 
-        $user->profile = null;
-        $user->profile->bio = 'sample bio';
-        $user->profile = null;
+        $user->profile = new Profile(['bio' => 'other bio']);
 
         //Null command expected
         $user->solidState(false);
@@ -199,8 +204,36 @@ abstract class HasOneRelationTest extends BaseTest
         //New instance
         $this->assertInstanceOf(Profile::class, $user->profile);
         $this->assertNotSame($profile, $user->profile);
+        $this->assertSame("other bio", $user->profile->bio);
 
-        $this->assertSame(0, $this->db->profiles->count());
+        $this->assertSame(1, $this->db->profiles->count());
         $this->assertTrue($user->profile->isLoaded());
+    }
+
+    public function testDeleteByReplacementNullable()
+    {
+        $user = new User();
+        $user->name = 'Some name';
+        $user->bio = new Bio(['bio' => 'Some bio']);
+        $user->save();
+
+        $this->assertSame(1, $this->db->bio->count());
+
+        //Back up
+        $bio = $user->bio;
+
+        $user->bio = new Bio(['bio' => 'other bio']);
+
+        //Null command expected
+        $user->solidState(false);
+        $user->save();
+
+        //New instance
+        $this->assertInstanceOf(Bio::class, $user->bio);
+        $this->assertNotSame($bio, $user->bio);
+        $this->assertSame("other bio", $user->bio->bio);
+
+        $this->assertSame(1, $this->db->bio->count());
+        $this->assertTrue($user->bio->isLoaded());
     }
 }

@@ -65,26 +65,23 @@ abstract class SingularRelation extends AbstractRelation
             return $this->instance;
         }
 
-        if (empty($this->data)) {
-            if (static::CREATE_PLACEHOLDER) {
-                //Stub instance
-                return $this->instance = $this->orm->make(
-                    $this->getClass(),
-                    [],
-                    ORMInterface::STATE_NEW
-                );
-            }
-
-            return null;
+        if (!empty($this->data)) {
+            $this->instance = $this->orm->make(
+                $this->getClass(),
+                $this->data,
+                ORMInterface::STATE_LOADED,
+                true
+            );
+        } elseif ($this->isPlaceholderNeeded()) {
+            //Stub instance
+            $this->instance = $this->orm->make(
+                $this->getClass(),
+                [],
+                ORMInterface::STATE_NEW
+            );
         }
 
-        //Create instance based on loaded data
-        return $this->instance = $this->orm->make(
-            $this->getClass(),
-            $this->data,
-            ORMInterface::STATE_LOADED,
-            true
-        );
+        return $this->instance;
     }
 
     /**
@@ -125,5 +122,13 @@ abstract class SingularRelation extends AbstractRelation
         return [
             $this->key(Record::OUTER_KEY) => $this->parent->getField($this->key(Record::INNER_KEY))
         ];
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isPlaceholderNeeded(): bool
+    {
+        return static::CREATE_PLACEHOLDER;
     }
 }
