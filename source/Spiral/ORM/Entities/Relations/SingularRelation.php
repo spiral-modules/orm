@@ -65,26 +65,23 @@ abstract class SingularRelation extends AbstractRelation
             return $this->instance;
         }
 
-        if (empty($this->data)) {
-            if ($this->isPlaceholderNeeded()) {
-                //Stub instance
-                return $this->instance = $this->orm->make(
-                    $this->getClass(),
-                    [],
-                    ORMInterface::STATE_NEW
-                );
-            }
-
-            return null;
+        if (!empty($this->data)) {
+            $this->instance = $this->orm->make(
+                $this->getClass(),
+                $this->data,
+                ORMInterface::STATE_LOADED,
+                true
+            );
+        } elseif ($this->isPlaceholderNeeded()) {
+            //Stub instance
+            $this->instance = $this->orm->make(
+                $this->getClass(),
+                [],
+                ORMInterface::STATE_NEW
+            );
         }
 
-        //Create instance based on loaded data
-        return $this->instance = $this->orm->make(
-            $this->getClass(),
-            $this->data,
-            ORMInterface::STATE_LOADED,
-            true
-        );
+        return $this->instance;
     }
 
     /**

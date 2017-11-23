@@ -41,7 +41,8 @@ class User extends BaseRecord implements
             self::CREATE_CONSTRAINT => false
         ],
 
-        'profile' => [self::HAS_ONE => Profile::class]
+        'profile' => [self::HAS_ONE => Profile::class],
+        'bio'     => [self::HAS_ONE => Bio::class, self::NULLABLE => true],
     ];
 
     const DEFAULTS = [

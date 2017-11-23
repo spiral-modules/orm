@@ -10,6 +10,7 @@ namespace Spiral\Tests\ORM;
 use Spiral\ORM\Entities\Loaders\RelationLoader;
 use Spiral\ORM\Entities\Relations\ManyToManyRelation;
 use Spiral\ORM\Entities\Relations\ManyToMorphedRelation;
+use Spiral\Tests\ORM\Fixtures\Bio;
 use Spiral\Tests\ORM\Fixtures\Comment;
 use Spiral\Tests\ORM\Fixtures\Post;
 use Spiral\Tests\ORM\Fixtures\Profile;
@@ -25,6 +26,7 @@ abstract class ManyToMorphedRelationTest extends BaseTest
         Comment::class,
         Tag::class,
         Profile::class,
+        Bio::class,
         Supertag::class
     ];
 

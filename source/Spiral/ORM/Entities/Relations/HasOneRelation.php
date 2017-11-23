@@ -45,6 +45,9 @@ class HasOneRelation extends SingularRelation
         }
 
         $this->instance = $value;
+        if (is_null($value)) {
+            $this->data = [];
+        }
     }
 
     /**
