@@ -1,6 +1,10 @@
 CHANGELOG
 ======================
 
+1.0.6 (23.11.2017)
+-----
+- bugfix of HAS_ONE NULLABLE relation
+
 1.0.5 (29.09.2017)
 -----
 - bugfix of MANY_TO_MANY exception when used several databases
