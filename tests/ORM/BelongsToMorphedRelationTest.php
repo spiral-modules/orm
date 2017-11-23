@@ -8,6 +8,7 @@
 namespace Spiral\Tests\ORM;
 
 use Spiral\ORM\Entities\Loaders\RelationLoader;
+use Spiral\Tests\ORM\Fixtures\Bio;
 use Spiral\Tests\ORM\Fixtures\Comment;
 use Spiral\Tests\ORM\Fixtures\Label;
 use Spiral\Tests\ORM\Fixtures\Picture;
@@ -24,6 +25,7 @@ abstract class BelongsToMorphedRelationTest extends BaseTest
         Comment::class,
         Tag::class,
         Profile::class,
+        Bio::class,
         Picture::class,
         Label::class
     ];
