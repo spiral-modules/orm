@@ -45,6 +45,9 @@ class HasOneRelation extends SingularRelation
         }
 
         $this->instance = $value;
+        if (is_null($value)) {
+            $this->data = [];
+        }
     }
 
     /**
@@ -126,5 +129,13 @@ class HasOneRelation extends SingularRelation
         }
 
         return $where;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isPlaceholderNeeded(): bool
+    {
+        return !$this->key(Record::NULLABLE);
     }
 }

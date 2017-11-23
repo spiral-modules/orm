@@ -7,6 +7,7 @@
 
 namespace Spiral\Tests\ORM;
 
+use Spiral\Tests\ORM\Fixtures\Bio;
 use Spiral\Tests\ORM\Fixtures\Comment;
 use Spiral\Tests\ORM\Fixtures\LateOne;
 use Spiral\Tests\ORM\Fixtures\LateTwo;
@@ -27,6 +28,7 @@ abstract class LateBindingTest extends BaseTest
 
         $builder->addSchema($this->makeSchema(User::class));
         $builder->addSchema($this->makeSchema(Profile::class));
+        $builder->addSchema($this->makeSchema(Bio::class));
         $builder->addSchema($this->makeSchema(Post::class));
         $builder->addSchema($this->makeSchema(Comment::class));
         $builder->addSchema($this->makeSchema(Tag::class));
@@ -65,6 +67,7 @@ abstract class LateBindingTest extends BaseTest
 
         $builder->addSchema($this->makeSchema(User::class));
         $builder->addSchema($this->makeSchema(Profile::class));
+        $builder->addSchema($this->makeSchema(Bio::class));
         $builder->addSchema($this->makeSchema(Post::class));
         $builder->addSchema($this->makeSchema(Comment::class));
         $builder->addSchema($this->makeSchema(Tag::class));
@@ -108,6 +111,7 @@ abstract class LateBindingTest extends BaseTest
 
         $builder->addSchema($this->makeSchema(User::class));
         $builder->addSchema($this->makeSchema(Profile::class));
+        $builder->addSchema($this->makeSchema(Bio::class));
         $builder->addSchema($this->makeSchema(Post::class));
         $builder->addSchema($this->makeSchema(Comment::class));
         $builder->addSchema($this->makeSchema(Tag::class));

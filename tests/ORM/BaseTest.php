@@ -23,6 +23,7 @@ use Spiral\ORM\RecordInterface;
 use Spiral\ORM\Schemas\SchemaBuilder;
 use Spiral\Tests\Core\Fixtures\SharedComponent;
 use Spiral\Tests\ORM\Fixtures\BaseRecord;
+use Spiral\Tests\ORM\Fixtures\Bio;
 use Spiral\Tests\ORM\Fixtures\Comment;
 use Spiral\Tests\ORM\Fixtures\Node;
 use Spiral\Tests\ORM\Fixtures\Post;
@@ -45,6 +46,7 @@ abstract class BaseTest extends \PHPUnit_Framework_TestCase
         Comment::class,
         Tag::class,
         Profile::class,
+        Bio::class,
         Recursive::class,
         Node::class,
     ];
