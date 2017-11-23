@@ -120,7 +120,7 @@ final class RelationContext
      *
      * @return AbstractColumn
      */
-    public function getColumn($name): AbstractColumn
+    public function getColumn(string $name): AbstractColumn
     {
         if (!$this->schema->hasColumn($name)) {
             throw new DefinitionException("Undefined column {$name} in {$this->schema->getName()}");
