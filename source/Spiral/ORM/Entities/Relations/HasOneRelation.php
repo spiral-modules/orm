@@ -127,4 +127,12 @@ class HasOneRelation extends SingularRelation
 
         return $where;
     }
+
+    /**
+     * @return bool
+     */
+    protected function isPlaceholderNeeded(): bool
+    {
+        return !$this->key(Record::NULLABLE);
+    }
 }

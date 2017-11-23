@@ -66,7 +66,7 @@ abstract class SingularRelation extends AbstractRelation
         }
 
         if (empty($this->data)) {
-            if (static::CREATE_PLACEHOLDER) {
+            if ($this->isPlaceholderNeeded()) {
                 //Stub instance
                 return $this->instance = $this->orm->make(
                     $this->getClass(),
@@ -125,5 +125,13 @@ abstract class SingularRelation extends AbstractRelation
         return [
             $this->key(Record::OUTER_KEY) => $this->parent->getField($this->key(Record::INNER_KEY))
         ];
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isPlaceholderNeeded(): bool
+    {
+        return static::CREATE_PLACEHOLDER;
     }
 }
