@@ -41,7 +41,7 @@ class HasOneRelation extends SingularRelation
 
         if (empty($this->previous)) {
             //We are only keeping reference to the oldest (ie loaded) instance
-            $this->previous = $this->instance;
+            $this->previous = $this->getRelated();
         }
 
         $this->instance = $value;
