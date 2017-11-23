@@ -1,6 +1,10 @@
 CHANGELOG
 ======================
 
+1.0.7 (23.11.2017)
+-----
+- Update composer dependencies
+
 1.0.6 (23.11.2017)
 -----
 - bugfix of HAS_ONE NULLABLE relation
