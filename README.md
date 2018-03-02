@@ -24,7 +24,7 @@ ORM engine with automatic database scaffolding, strict schemas, code discovery, 
  * [Query Models](https://spiral-framework.com/guide/orm-query)
  * [Eager loading](https://spiral-framework.com/guide/orm-loading)
  * [Recursive Relations](https://spiral-framework.com/guide/orm-recursive-relations)
- * [Hybrid Databases](https://spiral-framework.com/guide/orm-odm-bridged)
+ * [Hybrid Databases](https://spiral-framework.com/guide/orm-odm-bridge)
  * [Custom Relations](https://spiral-framework.com/guide/orm-custom-relations)
 
 # Examples
