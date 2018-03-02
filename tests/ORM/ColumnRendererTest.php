@@ -7,9 +7,17 @@
 namespace Spiral\Tests\ORM;
 
 use Spiral\ORM\Helpers\ColumnRenderer;
+use Spiral\Tests\ORM\Fixtures\User;
 
 abstract class ColumnRendererTest extends BaseTest
 {
+    public function testNamedIndexes()
+    {
+        $table = $this->orm->table(User::class);
+        $this->assertSame('status_index', $table->getSchema()->index(['status'])->getName());
+    }
+
+
     public function testRenderString()
     {
         $table = $this->db->sample->getSchema();

@@ -330,16 +330,32 @@ class RecordSchema implements SchemaInterface
      */
     protected function castIndex(array $definition)
     {
+        $name = null;
         $unique = null;
         $columns = [];
 
-        foreach ($definition as $chunk) {
-            if ($chunk == RecordEntity::INDEX || $chunk == RecordEntity::UNIQUE) {
-                $unique = $chunk === RecordEntity::UNIQUE;
+
+        foreach ($definition as $key => $value) {
+
+            if ($key == RecordEntity::INDEX || $key == RecordEntity::UNIQUE) {
+                $unique = ($key === RecordEntity::UNIQUE);
+
+                if (!is_string($value) || empty($value)){
+                    throw new DefinitionException(
+                        "Record '{$this}' has index definition with invalid index name"
+                    );
+                }
+
+                $name = $value;
                 continue;
             }
 
-            $columns[] = $chunk;
+            if ($value == RecordEntity::INDEX || $value == RecordEntity::UNIQUE) {
+                $unique = ($value === RecordEntity::UNIQUE);
+                continue;
+            }
+
+            $columns[] = $value;
         }
 
         if (is_null($unique)) {
@@ -354,7 +370,7 @@ class RecordSchema implements SchemaInterface
             );
         }
 
-        return new IndexDefinition($columns, $unique);
+        return new IndexDefinition($columns, $unique, $name);
     }
 
     /**

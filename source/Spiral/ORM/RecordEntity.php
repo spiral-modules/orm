@@ -145,8 +145,8 @@ abstract class RecordEntity extends AbstractRecord implements RecordInterface
      *
      * @see Record::INDEXES
      */
-    const INDEX  = 1000;            //Default index type
-    const UNIQUE = 2000;            //Unique index definition
+    const INDEX      = 1000;        //Default index type
+    const UNIQUE     = 2000;        //Unique index definition
 
     /*
      * ================================================
