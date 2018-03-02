@@ -50,6 +50,6 @@ class User extends BaseRecord implements
     ];
 
     const INDEXES = [
-        [self::INDEX, 'status']
+        [self::INDEX => 'status_index', 'status']
     ];
 }
