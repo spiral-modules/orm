@@ -1,6 +1,10 @@
 CHANGELOG
 ======================
 
+1.0.9 (03.02.2018)
+-----
+- Ability to set index name using schema
+
 1.0.8 (23.11.2017)
 -----
 - Update composer dependencies
