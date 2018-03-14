@@ -144,7 +144,7 @@ abstract class RelationLoader extends AbstractLoader
         }
 
         //Ensure all nested relations
-        $statement = $this->configureQuery($this->createQuery(), $references)->run();
+        $statement = $this->configureQuery($this->createQuery(), true, $references)->run();
         $statement->setFetchMode(\PDO::FETCH_NUM);
 
         foreach ($statement as $row) {
