@@ -433,7 +433,7 @@ class ManyToManyRelation extends MultipleRelation implements \IteratorAggregate,
 
         //Configuring query using parent inner key value as reference
         /** @var ManyToManyLoader $loader */
-        $query = $loader->configureQuery($query, [$innerKey]);
+        $query = $loader->configureQuery($query, true, [$innerKey]);
 
         //Additional pivot conditions
         $pivotDecorator = new AliasDecorator($query, 'onWhere', $table->getName() . '_pivot');
