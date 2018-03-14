@@ -82,11 +82,11 @@ class ManyToManyLoader extends RelationLoader
      *
      * Visibility up.
      */
-    public function configureQuery(SelectQuery $query, array $outerKeys = []): SelectQuery
+    public function configureQuery(SelectQuery $query, bool $loadColumns = true, array $outerKeys = []): SelectQuery
     {
         if (!empty($this->options['using'])) {
             //Use pre-defined query
-            return parent::configureQuery($query, $outerKeys);
+            return parent::configureQuery($query, $loadColumns, $outerKeys);
         }
 
         if ($this->isJoined()) {
@@ -152,7 +152,7 @@ class ManyToManyLoader extends RelationLoader
         //User specified WHERE conditions
         $this->setWhere($query, $this->getAlias(), $whereTarget, $this->options['where']);
 
-        return parent::configureQuery($query);
+        return parent::configureQuery($query, $loadColumns);
     }
 
     /**

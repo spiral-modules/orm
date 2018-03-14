@@ -120,18 +120,21 @@ class RootLoader extends AbstractLoader
 
     /**
      * @param SelectQuery $query
+     * @param bool $loadColumns
      *
      * @return SelectQuery
      */
-    protected function configureQuery(SelectQuery $query): SelectQuery
+    protected function configureQuery(SelectQuery $query, bool $loadColumns = true): SelectQuery
     {
         //Clarifying table name
         $query->from("{$this->getTable()} AS {$this->getAlias()}");
 
         //Columns to be loaded for primary model
-        $this->mountColumns($query, true, '', true);
+        if ($loadColumns) {
+            $this->mountColumns($query, true, '', true);
+        }
 
-        return parent::configureQuery($query);
+        return parent::configureQuery($query, $loadColumns);
     }
 
     /**

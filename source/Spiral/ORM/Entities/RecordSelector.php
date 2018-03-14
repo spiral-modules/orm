@@ -17,6 +17,7 @@ use Spiral\ORM\Entities\Nodes\OutputNode;
 use Spiral\ORM\Exceptions\SelectorException;
 use Spiral\ORM\ORMInterface;
 use Spiral\ORM\RecordInterface;
+use Spiral\Pagination\CountingInterface;
 use Spiral\Pagination\PaginatorAwareInterface;
 use Spiral\Pagination\PaginatorInterface;
 
@@ -442,13 +443,13 @@ class RecordSelector extends Component implements \IteratorAggregate, \Countable
     {
         return $this->loader->compiledQuery();
     }
-    
+
     /**
      * Compiled SQL statement.
      *
      * @return string
      */
-    public function sqlStatement(): string 
+    public function sqlStatement(): string
     {
         return $this->loader->compiledQuery()->sqlStatement();
     }
@@ -493,7 +494,13 @@ class RecordSelector extends Component implements \IteratorAggregate, \Countable
      */
     public function getPaginator(bool $prepare = true): PaginatorInterface
     {
-        return $this->loader->compiledQuery()->getPaginator($prepare);
+        $paginator = $this->loader->compiledQuery()->getPaginator(false);
+
+        if ($prepare && $paginator instanceof CountingInterface) {
+            $paginator = $paginator->withCount($this->count());
+        }
+
+        return $paginator;
     }
 
     /**

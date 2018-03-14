@@ -37,16 +37,17 @@ class HasOneLoader extends RelationLoader
         'alias'  => null,
         'using'  => null,
         'where'  => null,
+        'load'   => false
     ];
 
     /**
      * {@inheritdoc}
      */
-    protected function configureQuery(SelectQuery $query, array $outerKeys = []): SelectQuery
+    protected function configureQuery(SelectQuery $query, bool $loadColumns = true, array $outerKeys = []): SelectQuery
     {
         if (!empty($this->options['using'])) {
             //Use pre-defined query
-            return parent::configureQuery($query, $outerKeys);
+            return parent::configureQuery($query, $loadColumns, $outerKeys);
         }
 
         if ($this->isJoined()) {
@@ -81,7 +82,7 @@ class HasOneLoader extends RelationLoader
             );
         }
 
-        return parent::configureQuery($query);
+        return parent::configureQuery($query, $loadColumns);
     }
 
     /**
