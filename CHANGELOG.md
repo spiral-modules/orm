@@ -1,6 +1,10 @@
 CHANGELOG
 ======================
 
+1.0.10 (14.02.2018)
+-----
+- With() loaders do not load related columns anymore
+
 1.0.9 (03.02.2018)
 -----
 - Ability to set index name using schema
