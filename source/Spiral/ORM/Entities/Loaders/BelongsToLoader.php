@@ -35,11 +35,11 @@ class BelongsToLoader extends RelationLoader
     /**
      * {@inheritdoc}
      */
-    protected function configureQuery(SelectQuery $query, array $outerKeys = []): SelectQuery
+    protected function configureQuery(SelectQuery $query, bool $loadColumns = true, array $outerKeys = []): SelectQuery
     {
         if (!empty($this->options['using'])) {
             //Use pre-defined query
-            return parent::configureQuery($query, $outerKeys);
+            return parent::configureQuery($query, $loadColumns, $outerKeys);
         }
 
         if ($this->isJoined()) {
@@ -59,7 +59,7 @@ class BelongsToLoader extends RelationLoader
             );
         }
 
-        return parent::configureQuery($query);
+        return parent::configureQuery($query, $loadColumns);
     }
 
     /**

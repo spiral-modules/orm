@@ -259,19 +259,20 @@ abstract class AbstractLoader implements LoaderInterface
 
     /**
      * @param SelectQuery $query
+     * @param bool        $loadColumns
      *
      * @return SelectQuery
      */
-    protected function configureQuery(SelectQuery $query): SelectQuery
+    protected function configureQuery(SelectQuery $query, bool $loadColumns = true): SelectQuery
     {
         foreach ($this->loaders as $loader) {
             if ($loader instanceof RelationLoader && $loader->isJoined()) {
-                $query = $loader->configureQuery(clone $query);
+                $query = $loader->configureQuery(clone $query, $loadColumns);
             }
         }
 
         foreach ($this->joiners as $loader) {
-            $query = $loader->configureQuery(clone $query);
+            $query = $loader->configureQuery(clone $query, false);
         }
 
         return $query;

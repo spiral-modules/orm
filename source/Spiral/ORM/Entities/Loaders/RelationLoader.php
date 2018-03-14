@@ -144,7 +144,7 @@ abstract class RelationLoader extends AbstractLoader
         }
 
         //Ensure all nested relations
-        $statement = $this->configureQuery($this->createQuery(), $references)->run();
+        $statement = $this->configureQuery($this->createQuery(), true, $references)->run();
         $statement->setFetchMode(\PDO::FETCH_NUM);
 
         foreach ($statement as $row) {
@@ -161,18 +161,21 @@ abstract class RelationLoader extends AbstractLoader
      * Configure query with conditions, joins and columns.
      *
      * @param SelectQuery $query
+     * @param bool        $loadColumns
      * @param array       $outerKeys Set of OUTER_KEY values collected by parent loader.
      *
      * @return SelectQuery
      */
-    protected function configureQuery(SelectQuery $query, array $outerKeys = []): SelectQuery
+    protected function configureQuery(SelectQuery $query, bool $loadColumns = true, array $outerKeys = []): SelectQuery
     {
-        if ($this->isJoined()) {
-            //Mounting columns
-            $this->mountColumns($query, $this->options['minify']);
-        } else {
-            //This is initial set of columns (remove all existed)
-            $this->mountColumns($query, $this->options['minify'], '', true);
+        if ($loadColumns) {
+            if ($this->isJoined()) {
+                //Mounting columns
+                $this->mountColumns($query, $this->options['minify']);
+            } else {
+                //This is initial set of columns (remove all existed)
+                $this->mountColumns($query, $this->options['minify'], '', true);
+            }
         }
 
         return parent::configureQuery($query);
