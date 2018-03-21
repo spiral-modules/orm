@@ -1,6 +1,10 @@
 CHANGELOG
 ======================
 
+1.0.10 (21.03.2018)
+-----
+- Fixed issue with fetching all columns during "with" relation
+
 1.0.9 (03.02.2018)
 -----
 - Ability to set index name using schema
