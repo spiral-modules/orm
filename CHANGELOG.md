@@ -1,8 +1,9 @@
 CHANGELOG
 ======================
 
-1.0.10 (14.02.2018)
+1.0.10 (21.03.2018)
 -----
+- Fixed issue with fetching all columns during "with" relation
 - With() loaders do not load related columns anymore
 
 1.0.9 (03.02.2018)
