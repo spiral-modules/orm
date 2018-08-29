@@ -108,7 +108,7 @@ class ColumnRenderer
             && is_a($definition, ColumnInterface::class, true)
         ) {
             //Dedicating column definition to our column class
-            call_user_func([$definition, 'describeColumn'], $column);
+            call_user_func([$definition, 'describeColumn'], $column, $hasDefault, $default);
 
             return $column;
         }
