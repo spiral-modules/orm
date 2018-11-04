@@ -67,8 +67,8 @@ abstract class AbstractRelation implements RelationInterface
     protected $orm;
 
     /**
-     * @param string       $class Owner model class name.
-     * @param array        $schema
+     * @param string $class Owner model class name.
+     * @param array $schema
      * @param ORMInterface $orm
      */
     public function __construct(string $class, array $schema, ORMInterface $orm)
