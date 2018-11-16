@@ -178,11 +178,11 @@ class ManyToManyRelation extends MultipleRelation implements \IteratorAggregate,
         //Ensure reference
         $record = $this->matchOne($record) ?? $record;
 
-        if (in_array($record, $this->instances)) {
+        if (in_array($record, $this->instances, true)) {
             //Merging pivot data
             $this->pivotData->offsetSet($record, $pivotData + $this->getPivot($record));
 
-            if (!in_array($record, $this->updated) && !in_array($record, $this->scheduled)) {
+            if (!in_array($record, $this->updated, true) && !in_array($record, $this->scheduled, true)) {
                 //Indicating that record pivot data has been changed
                 $this->updated[] = $record;
             }
@@ -267,13 +267,13 @@ class ManyToManyRelation extends MultipleRelation implements \IteratorAggregate,
             $transaction->addCommand($recordCommand = $record->queueStore(), true);
 
             //Create or refresh link between records
-            if (in_array($record, $this->scheduled)) {
+            if (in_array($record, $this->scheduled, true)) {
                 //Create link
                 $command = new InsertCommand(
                     $this->pivotTable(),
                     $this->pivotData->offsetGet($record)
                 );
-            } elseif (in_array($record, $this->updated)) {
+            } elseif (in_array($record, $this->updated, true)) {
                 //Update link (expecting both records to be already loaded)
                 $command = new UpdateCommand(
                     $this->pivotTable(),
