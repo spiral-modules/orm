@@ -37,12 +37,7 @@ abstract class SingularRelation extends AbstractRelation
      */
     public function hasRelated(): bool
     {
-        if (!$this->isLoaded()) {
-            //Lazy loading our relation data
-            $this->loadData();
-        }
-
-        return !empty($this->instance);
+        return !empty($this->getRelated());
     }
 
     /**
