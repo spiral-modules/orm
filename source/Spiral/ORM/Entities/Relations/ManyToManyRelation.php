@@ -220,7 +220,7 @@ class ManyToManyRelation extends MultipleRelation implements \IteratorAggregate,
                 //Removing locally
                 unset($this->instances[$index]);
 
-                if (!in_array($linked, $this->scheduled) || !$this->autoload) {
+                if (!in_array($linked, $this->scheduled, true) || !$this->autoload) {
                     //Scheduling unlink in db when we know relation OR partial mode is on
                     $this->unlinked[] = $linked;
                 }
@@ -466,7 +466,7 @@ class ManyToManyRelation extends MultipleRelation implements \IteratorAggregate,
             $iterator = new RecordIterator($this->data, $this->class, $this->orm);
 
             foreach ($iterator as $pivotData => $item) {
-                if (in_array($item, $this->instances)) {
+                if (in_array($item, $this->instances, true)) {
                     //Skip duplicates (if any?)
                     continue;
                 }
