@@ -127,9 +127,13 @@ final class Transaction implements TransactionInterface
                 $executedCommands[] = $command;
             }
         } catch (\Throwable $e) {
-            foreach (array_reverse($wrappedDrivers) as $driver) {
-                /** @var Driver $driver */
-                $driver->rollbackTransaction();
+            try {
+                foreach (array_reverse($wrappedDrivers) as $driver) {
+                    /** @var Driver $driver */
+                    $driver->rollbackTransaction();
+                }
+            } catch (\Throwable $et) {
+                throw $e;
             }
 
             foreach (array_reverse($executedCommands) as $command) {
